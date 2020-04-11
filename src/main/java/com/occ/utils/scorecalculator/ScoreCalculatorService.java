@@ -85,9 +85,9 @@ public class ScoreCalculatorService {
     }
 
     /*
-     * converts a CSV line to list of strings by trimming double quotes
+     * converts a CSV line to list of strings by trimming double quotes and upper casing
      */
-    private List<String> getNamesFromLine(final String line) {
+    List<String> getNamesFromLine(final String line) {
         final List<String> values = new ArrayList<>();
         try (Scanner rowScanner = new Scanner(line)) {
             rowScanner.useDelimiter(COMMA);
@@ -95,7 +95,7 @@ public class ScoreCalculatorService {
                 String name = rowScanner.next().trim();
                 name = StringUtils.trimLeadingCharacter(name, DOUBLE_QUOTE_CHAR);
                 name = StringUtils.trimTrailingCharacter(name, DOUBLE_QUOTE_CHAR);
-                values.add(name);
+                values.add(name.toUpperCase());
                 LOG.debug(name);
             }
             rowScanner.close();
@@ -107,10 +107,10 @@ public class ScoreCalculatorService {
      * Sums the alphabetical value of each letter and multiply the sume by the
      * name's position in the list
      */
-    private Long compute(final String name, final long position) {
+    Long compute(final String name, final long position) {
         Long sum = 0L;
         for (int i = 0; i < name.toUpperCase().length(); i++) {
-            sum += ALPHABETS.indexOf(name.charAt(i)) + 1;
+            sum += ALPHABETS.indexOf(Character.toUpperCase(name.charAt(i))) + 1;
         }
         return sum * position;
     }
