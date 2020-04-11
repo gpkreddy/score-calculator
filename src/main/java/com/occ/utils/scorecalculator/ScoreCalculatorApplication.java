@@ -39,6 +39,8 @@ public class ScoreCalculatorApplication implements CommandLineRunner {
 		String filePath = userInputProcessor.readAndValidateInput(args);
 		LOG.info("File used for the calculation is : " + filePath);
 
+		Long finalScore = scoreCalculatorService.computeScoresByFirstName(filePath);
+	    LOG.info("Final Score for the names in the file is : " + finalScore);
 	}
 
 }
